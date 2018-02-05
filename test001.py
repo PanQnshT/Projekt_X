@@ -1,4 +1,5 @@
 import pygame, sys
+from ship import Ship
 
 class Game(object):
 
@@ -11,6 +12,7 @@ class Game(object):
         self.screen = pygame.display.set_mode((800, 600))
         self.clock = pygame.time.Clock()
         self.delta = 0.0
+        self.player = Ship(self)
 
         while True:
 
@@ -24,21 +26,20 @@ class Game(object):
             # Ticking
             self.delta += self.clock.tick()/1000
             while self.delta >= 1/self.tps_max:
+                self.tick()
                 self.delta -= 1/self.tps_max
 
             # Drawing
             self.screen.fill((0, 0, 0))
-            self.render()
+            self.draw()
             pygame.display.flip()
 
     def tick(self):
-        # Input
-        keys = pygame.key.get_pressed()
+        self.player.tick()
 
 
-    def render(self):
-        # Drawing
-        pygame.draw.rect(self.screen,(50,100,200),pygame.Rect(0,0,25,25))
+    def draw(self):
+        self.player.draw()
 
 if __name__ == "__main__":
     Game()

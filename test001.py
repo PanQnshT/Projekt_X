@@ -1,40 +1,44 @@
 import pygame, sys
 
-tps_max = 60.0
+class Game(object):
 
-pygame.init()
+    def __init__(self):
+        # Config
+        self.tps_max = 60.0
 
-screen = pygame.display.set_mode((800, 600))
-player = pygame.Rect(0,0,25,25)
-clock = pygame.time.Clock()
-delta = 0.0
+        # Init
+        pygame.init()
+        self.screen = pygame.display.set_mode((800, 600))
+        self.clock = pygame.time.Clock()
+        self.delta = 0.0
 
-while True:
+        while True:
 
-    # Handle Events
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit(0)
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            sys.exit(0)
+            # Handle Events
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit(0)
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    sys.exit(0)
 
-    # Ticking
-    delta += clock.tick()/1000
-    while delta >= 1/tps_max:
-        delta -= 1/tps_max
+            # Ticking
+            self.delta += self.clock.tick()/1000
+            while self.delta >= 1/self.tps_max:
+                self.delta -= 1/self.tps_max
 
+            # Drawing
+            self.screen.fill((0, 0, 0))
+            self.render()
+            pygame.display.flip()
+
+    def tick(self):
         # Input
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_UP]:
-            player.y -= 1
-        if keys[pygame.K_DOWN]:
-            player.y += 1
-        if keys[pygame.K_RIGHT]:
-            player.x += 1
-        if keys[pygame.K_LEFT]:
-            player.x -= 1
 
-    # Drawing
-    screen.fill((0,0,0))
-    pygame.draw.rect(screen,(50,100,200),player)
-    pygame.display.flip()
+
+    def render(self):
+        # Drawing
+        pygame.draw.rect(self.screen,(50,100,200),pygame.Rect(0,0,25,25))
+
+if __name__ == "__main__":
+    Game()

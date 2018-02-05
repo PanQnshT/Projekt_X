@@ -4,6 +4,7 @@ pygame.init()
 
 screen = pygame.display.set_mode((800, 600))
 player = pygame.Rect(0,0,25,25)
+clock = pygame.time.Clock()
 
 while True:
 

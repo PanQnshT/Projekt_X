@@ -1,10 +1,13 @@
 import pygame, sys
 
+tps_max = 60.0
+
 pygame.init()
 
 screen = pygame.display.set_mode((800, 600))
 player = pygame.Rect(0,0,25,25)
 clock = pygame.time.Clock()
+delta = 0.0
 
 while True:
 
@@ -15,17 +18,21 @@ while True:
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             sys.exit(0)
 
-    # Input
+    # Ticking
+    delta += clock.tick()/1000
+    while delta >= 1/tps_max:
+        delta -= 1/tps_max
 
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_UP]:
-        player.y -= 1
-    if keys[pygame.K_DOWN]:
-        player.y += 1
-    if keys[pygame.K_RIGHT]:
-        player.x += 1
-    if keys[pygame.K_LEFT]:
-        player.x -= 1
+        # Input
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_UP]:
+            player.y -= 1
+        if keys[pygame.K_DOWN]:
+            player.y += 1
+        if keys[pygame.K_RIGHT]:
+            player.x += 1
+        if keys[pygame.K_LEFT]:
+            player.x -= 1
 
     # Drawing
     screen.fill((0,0,0))
